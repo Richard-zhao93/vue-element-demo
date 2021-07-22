@@ -32,7 +32,8 @@ npm i -D mockjs
 
 然后在代码中使用 `axios` 发起请求，即可接收到模拟数据。
 
-> 参考文章
+> 参考文章：
+>
 > [vue-vue项目中mock.js的使用](https://juejin.cn/post/6844903847660371982)
 >
 > [Mock 文档](http://mockjs.com/examples.html)
