@@ -27,5 +27,7 @@ npm run lint
 npm i -D mockjs
 ```
 在项目中新建 `mock.js` 文件夹，来设置要产生的[模拟数据的格式](./src/mock.js`)。
+
 在 `main.js` 中引入该文件 `mock.js` ，表明使用 mockJs 拦截请求，返回数据。
+
 然后在代码中使用 `axios` 发起请求，即可接收到模拟数据。
