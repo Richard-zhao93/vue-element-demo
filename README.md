@@ -31,3 +31,12 @@ npm i -D mockjs
 在 `main.js` 中引入该文件 `mock.js` ，表明使用 mockJs 拦截请求，返回数据。
 
 然后在代码中使用 `axios` 发起请求，即可接收到模拟数据。
+
+> 参考文章
+> [vue-vue项目中mock.js的使用](https://juejin.cn/post/6844903847660371982)
+>
+> [Mock 文档](http://mockjs.com/examples.html)
+>
+> [手摸手教你在vue项目中使用 mockjs 模拟数据入门](https://juejin.cn/post/6844904082306498573#heading-5)
+>
+>[5分钟教你用nodeJS手写一个mock数据服务器](https://juejin.cn/post/6844903937330380814)
