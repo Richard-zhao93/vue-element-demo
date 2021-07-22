@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// 引用 mock
+require('./mock')
+
 Vue.config.productionTip = false
 
 new Vue({
