@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
+      <el-button type='primary'>ElementUI</el-button>
     </div>
   </div>
 </template>
