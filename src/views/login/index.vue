@@ -1,6 +1,5 @@
 <template>
   <div class="login-container">
-
       <!-- 登录表单部分 Start -->
       <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-width="100px" class="login-form">
         <!-- 标题 Start -->
@@ -74,6 +73,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * 密码显示与隐藏切换
+     */
     showPwd () {
       if (this.passwordType === 'password') {
         this.passwordType = ''
