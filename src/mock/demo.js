@@ -1,12 +1,12 @@
 import Mock from 'mockjs'
 
 const projectList = Mock.mock({
-  "list|20": [{
+  'list|20': [{
     'name': '@cname', // 中文名
     'account': `@word`, // 英文单词
     'phone': /1[3-9][0-9]{9}/, // 正则模式
     'deptName': Mock.mock('@cword(2,4)'), // 随机2-4字中文单词
-    'id': '@guid', // guid
+    'id': '@guid' // guid
   }]
 })
 
@@ -16,7 +16,7 @@ export default [
     type: 'get',
     response: (res) => {
       console.log(res)
-      let _filter_list = [];
+      // let _filter_list = [];
       // if (res.body && res.body.key) {
       //   _filter_list = projectList.filter(i => i.name == res.body.key)
       // }
@@ -27,7 +27,7 @@ export default [
 
       return {
         code: 200,
-        message: "操作成功",
+        message: '操作成功',
         data: projectList
       }
     }

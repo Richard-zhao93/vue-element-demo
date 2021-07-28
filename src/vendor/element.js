@@ -2,12 +2,18 @@ import Vue from 'vue'
 
 import {
   Button,
-  Dialog
+  Dialog,
+  Form,
+  FormItem,
+  Input
 } from 'element-ui'
 
 const components = [
   Button,
-  Dialog
+  Dialog,
+  Form,
+  FormItem,
+  Input
 ]
 
 components.forEach(component => {

@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router/index'
 import store from './store'
 import './vendor/element'
-// import 'element-ui/lib/theme-chalk/index.css'
+
+import '@/styles/index.scss' // global css
+import '@/icons' // 引入 icons
 
 // Mock 使用
 import { mockXHR } from './mock'

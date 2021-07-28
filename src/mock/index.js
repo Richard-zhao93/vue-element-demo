@@ -26,7 +26,6 @@ export function param2Obj (url) {
   )
 }
 
-
 // 前端模式构建函数（或者也可以建一个mock server）
 export function mockXHR () {
   Mock.XHR.prototype.proxy_send = Mock.XHR.prototype.send
