@@ -7,7 +7,7 @@ const Tip = msg => {
   Message({
     showClose: true,
     message: msg,
-    type: "warning"
+    type: 'warning'
   })
 }
 
@@ -16,7 +16,7 @@ const Tip = msg => {
 var serve = axios.create({ timeout: 1000 * 12 })
 
 // 设置请求头
-serve.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8"
+serve.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 
 // 请求拦截器
 serve.interceptors.request.use(
@@ -35,18 +35,18 @@ const errorHandler = status => {
     // 未登录状态，返回登录页
     case 401:
       // ...
-      break;
+      break
     // token 过期
     // 清除 token，返回登录页
     case 403:
-      Tip("登陆过期，请重新登录")
-      localStorage.removeItem("token")
-      store.commit("loginSuccess", null)
-      setTimeout(() => { }, 1000);
-      break;
+      Tip('登陆过期，请重新登录')
+      localStorage.removeItem('token')
+      store.commit('loginSuccess', null)
+      setTimeout(() => { }, 1000)
+      break
     // 请求不存在
     case 404:
-      Tip("请求的资源不存子啊")
+      Tip('请求的资源不存在')
   }
 }
 

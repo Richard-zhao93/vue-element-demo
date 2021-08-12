@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Login from '../views/login/index'
+// import Layout from '@/views/layout/index'
 
 Vue.use(VueRouter)
 
@@ -30,9 +30,22 @@ export const constantRoutes = [
     path: '/login',
     component:
       // Login
-      () => import(/* webpackChunkName: "login" */ '@/views/login/index')
-    // hidden: true
+      () => import(/* webpackChunkName: "login" */ '@/views/login/index'),
+    hidden: true
   }
+  // {
+  // path: '/',
+  // component: Layout,
+  // redirect: '/dashboard',
+  // children: [
+  //   {
+  //     path: 'dashboard',
+  //     component: () => import(''),
+  //     name: 'Dashboard',
+  //     meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+  //   }
+  // ]
+  // }
 ]
 
 const createRouter = () => new VueRouter({

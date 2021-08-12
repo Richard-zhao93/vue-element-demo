@@ -10,7 +10,7 @@ const mocks = [
 ]
 
 // 解析地址栏参数解析函数
-export function param2Obj (url) {
+export function param2Obj(url) {
   const search = url.split('?')[1]
   if (!search) {
     return {}
@@ -27,7 +27,7 @@ export function param2Obj (url) {
 }
 
 // 前端模式构建函数（或者也可以建一个mock server）
-export function mockXHR () {
+export function mockXHR() {
   Mock.XHR.prototype.proxy_send = Mock.XHR.prototype.send
   Mock.XHR.prototype.send = function () {
     if (this.custom.xhr) {
@@ -40,7 +40,7 @@ export function mockXHR () {
     this.proxy_send(...arguments)
   }
 
-  function XHR2ExpressReqWrap (respond) {
+  function XHR2ExpressReqWrap(respond) {
     return function (options) {
       let result = null
       if (respond instanceof Function) {
