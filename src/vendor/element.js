@@ -5,7 +5,8 @@ import {
   Dialog,
   Form,
   FormItem,
-  Input
+  Input,
+  Message
 } from 'element-ui'
 
 const components = [
@@ -19,3 +20,5 @@ const components = [
 components.forEach(component => {
   Vue.use(component)
 })
+
+Vue.prototype.$message = Message

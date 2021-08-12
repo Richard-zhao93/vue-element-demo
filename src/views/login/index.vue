@@ -118,17 +118,36 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          // this.loading = true
+          this.loading = true
           const { data: res } = await this.$http.post('login', this.loginForm)
-          console.log(res)
-          if (res.meta.status !== 200) return console.log('login fail')
-          console.log('login success')
+          if (res.meta.status !== 200) {
+            this.loading = false
+            return this.$message({
+              showClose: true,
+              message: '登陆失败',
+              type: 'error'
+            })
+          }
 
-          // 路由跳转
-          // this.$router.push('/')
+          this.$message({
+            showClose: true,
+            message: '登陆成功',
+            type: 'success'
+          })
+          // 登陆成功：
+          // 1. 保存 token 到 sessionStorage 中
+          //    项目中除了登录之外的其他 API 接口，都需要 token
+          //    token 只应在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
+          // 2. 路由跳转至后台主页 /home
+          window.sessionStorage.setItem('token', res.data.token)
+          this.loading = false
+          this.$router.push('/home')
         } else {
-          console.log('error submit')
-          return false
+          return this.$message({
+            showClose: true,
+            message: '登陆失败',
+            type: 'error'
+          })
         }
       })
     }

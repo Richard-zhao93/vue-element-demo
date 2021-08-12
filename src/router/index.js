@@ -27,11 +27,17 @@ Vue.use(VueRouter)
 
 export const constantRoutes = [
   {
+    path: '/',
+    redirect: '/login'
+  },
+  {
     path: '/login',
-    component:
-      // Login
-      () => import(/* webpackChunkName: "login" */ '@/views/login/index'),
-    hidden: true
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index')
+    // hidden: true
+  },
+  {
+    path: '/home',
+    component: () => import('@/views/home/index')
   }
   // {
   // path: '/',
@@ -60,5 +66,24 @@ const router = createRouter()
 //   const newRouter = createRouter()
 //   router.match = newRouter.matcher
 // }
+
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  // 如果用户访问的是 /login，直接放行
+  if (to.path === '/login') return next()
+
+  // 从 sessionStorage 中获取 token
+  const token = window.sessionStorage.getItem('token')
+  // 如果 token 不存在，强制返回登录页
+  if (!token) {
+    Vue.prototype.$message({
+      showClose: true,
+      message: '请先登录',
+      type: 'error'
+    })
+    return next('/login')
+  }
+  next()
+})
 
 export default router
