@@ -1,56 +1,60 @@
 <template>
   <div>
     <el-container class="home-container">
-      <!-- 头部区域 -->
-      <el-header>
-        <div class="">
-          <span>电商后台管理系统</span>
-        </div>
-        <el-button type="info" @click="logout">退出</el-button>
-      </el-header>
+      <!-- 侧边栏 -->
+      <el-aside :width="isCollapse ? '64px' : '200px'">
+        <el-menu
+          default-active="1"
+          class="el-menu-vertical-demo"
+          @open="handleOpen"
+          @close="handleClose"
+          :collapse="isCollapse"
+          background-color="#333744"
+          text-color="#fff"
+          active-text-color="#409EFF"
+          :unique-opened="true"
+          :collapse-transition="false"
+        >
+          <el-submenu
+            v-for="item in menuList"
+            :key="item.id"
+            :index="item.id + ''"
+          >
+            <!-- 一级菜单模板区域 -->
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>{{ item.authName }}</span>
+            </template>
+            <!-- 二级菜单 -->
+            <el-menu-item
+              v-for="child in item.children"
+              :key="child.id"
+              :index="child.id + ''"
+            >
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>{{ child.authName }}</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
 
       <!-- 主体区域 -->
       <el-container>
-        <!-- 侧边栏 -->
-        <el-aside width="200px">
-          <el-radio-group v-model="isCollapse" style="margin-bottom: 0px;">
-            <el-radio-button :label="false">展开</el-radio-button>
-            <el-radio-button :label="true">收起</el-radio-button>
-          </el-radio-group>
-          <el-menu
-            default-active="1"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-            :collapse="isCollapse"
-            background-color="#333744"
-            text-color="#fff"
-            active-text-color="#ffd04b"
-          >
-            <el-submenu
-              v-for="item in menuList"
-              :key="item.id"
-              :index="item.id + ''"
-            >
-              <!-- 一级菜单模板区域 -->
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>{{ item.authName }}</span>
-              </template>
-              <!-- 二级菜单 -->
-              <el-menu-item
-                v-for="child in item.children"
-                :key="child.id"
-                :index="child.id + ''"
-              >
-                <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>{{ child.authName }}</span>
-                </template>
-              </el-menu-item>
-            </el-submenu>
-          </el-menu>
-        </el-aside>
+        <!-- 头部区域 -->
+        <el-header>
+          <div>
+            <div class="switch-icon" @click="changeCollapse">
+              <i
+                :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"
+              ></i>
+              <!-- <i class="el-icon-s-unfold"></i> -->
+            </div>
+            <span>电商后台管理系统</span>
+          </div>
+          <el-button type="info" plain @click="logout">退出</el-button>
+        </el-header>
 
         <!-- 右边内容区域 -->
         <el-main>Main</el-main>
@@ -92,6 +96,11 @@ export default {
       this.menuList = res.data
     },
 
+    // 控制侧边栏的展开和收起
+    changeCollapse() {
+      this.isCollapse = !this.isCollapse
+    },
+
     logout() {
       // 清空 token
       // window.sessionStorage.clear();
@@ -105,9 +114,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$bgHeader: #373d41;
+$bgHeader: #fff;
 $bgAside: #333744;
-$bgMain: #eaedf1;
+$bgMain: #f0f2f5;
 
 .home-container {
   height: 100vh;
@@ -119,8 +128,16 @@ $bgMain: #eaedf1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #fff;
+  color: rgb(160, 203, 217);
   font-size: 20px;
+
+  .switch-icon {
+    display: inline-block;
+    font-size: 20px;
+    color: #ccc;
+    margin-right: 20px;
+    cursor: pointer;
+  }
 }
 
 .el-aside {
