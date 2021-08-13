@@ -37,7 +37,18 @@ export const constantRoutes = [
   },
   {
     path: '/home',
-    component: () => import('@/views/home/index')
+    component: () => import('@/views/home/index'),
+    // redirect: '/welcome',
+    children: [
+      {
+        path: '/welcome',
+        component: () => import('@/views/welcome/index')
+      },
+      {
+        path: '/users',
+        component: () => import('@/views/users/index')
+      }
+    ]
   }
   // {
   // path: '/',

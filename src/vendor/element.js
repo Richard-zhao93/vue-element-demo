@@ -16,7 +16,13 @@ import {
   Menu,
   Submenu,
   MenuItem,
-  MenuItemGroup
+  MenuItemGroup,
+  Card,
+  Row,
+  Col,
+  Table,
+  TableColumn,
+  Pagination
 } from 'element-ui'
 
 const components = [
@@ -34,7 +40,13 @@ const components = [
   Menu,
   Submenu,
   MenuItem,
-  MenuItemGroup
+  MenuItemGroup,
+  Card,
+  Row,
+  Col,
+  Table,
+  TableColumn,
+  Pagination
 ]
 
 components.forEach(component => {

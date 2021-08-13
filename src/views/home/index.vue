@@ -14,6 +14,7 @@
           active-text-color="#409EFF"
           :unique-opened="true"
           :collapse-transition="false"
+          :router="true"
         >
           <el-submenu
             v-for="item in menuList"
@@ -29,7 +30,7 @@
             <el-menu-item
               v-for="child in item.children"
               :key="child.id"
-              :index="child.id + ''"
+              :index="'/' + child.path"
             >
               <template slot="title">
                 <i class="el-icon-menu"></i>
@@ -57,7 +58,10 @@
         </el-header>
 
         <!-- 右边内容区域 -->
-        <el-main>Main</el-main>
+        <el-main>
+          <!-- 路由占位符 -->
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
