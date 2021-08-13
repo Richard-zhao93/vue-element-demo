@@ -6,7 +6,17 @@ import {
   Form,
   FormItem,
   Input,
-  Message
+  Message,
+  Container,
+  Header,
+  Aside,
+  Main,
+  RadioGroup,
+  RadioButton,
+  Menu,
+  Submenu,
+  MenuItem,
+  MenuItemGroup
 } from 'element-ui'
 
 const components = [
@@ -14,7 +24,17 @@ const components = [
   Dialog,
   Form,
   FormItem,
-  Input
+  Input,
+  Container,
+  Header,
+  Aside,
+  Main,
+  RadioGroup,
+  RadioButton,
+  Menu,
+  Submenu,
+  MenuItem,
+  MenuItemGroup
 ]
 
 components.forEach(component => {
