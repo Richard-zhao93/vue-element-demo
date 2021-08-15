@@ -53,6 +53,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { setToken } from '@/utils/auth'
 import Tip from '@/utils/tips'
 
 export default {
@@ -133,7 +134,7 @@ export default {
           //    项目中除了登录之外的其他 API 接口，都需要 token
           //    token 只应在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
           // 2. 路由跳转至后台主页 /home
-          window.sessionStorage.setItem('token', res.data.token)
+          setToken(res.data.token)
           this.loading = false
           this.$router.push('/home')
         } else {

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Tip from '@/utils/tips.js'
 // import store from '@/store'
+import { getToken } from '@/utils/auth'
 
 // TODO:
 // 根据环境选择不同接口
@@ -16,7 +17,7 @@ serve.interceptors.request.use(
   config => {
     // 根据本地是否存储 token 判断用户登录情况
     // const token = store.state.token
-    const token = window.sessionStorage.getItem('token')
+    const token = getToken()
     token && (config.headers.Authorization = token)
     return config
   },

@@ -14,3 +14,18 @@
 // export function removeToken() {
 //   return Cookies.remove(TokenKey)
 // }
+
+// 封装 sessionStorage 操作
+const TokenKey = 'token'
+
+export function getToken() {
+  return window.sessionStorage.getItem(TokenKey)
+}
+
+export function setToken(token) {
+  return window.sessionStorage.setItem(TokenKey, token)
+}
+
+export function removeToken() {
+  return window.sessionStorage.removeItem(TokenKey)
+}

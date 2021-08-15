@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Layout from '@/views/layout/index'
+import { getToken } from '@/utils/auth'
 
 Vue.use(VueRouter)
 
@@ -84,7 +85,7 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/login') return next()
 
   // 从 sessionStorage 中获取 token
-  const token = window.sessionStorage.getItem('token')
+  const token = getToken()
   // 如果 token 不存在，强制返回登录页
   if (!token) {
     Vue.prototype.$message({

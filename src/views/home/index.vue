@@ -69,6 +69,7 @@
 
 <script>
 import Tip from '@/utils/tips'
+import { getToken, removeToken } from '@/utils/auth'
 
 export default {
   data() {
@@ -106,9 +107,7 @@ export default {
     // 退出
     logout() {
       // 清空 token
-      // window.sessionStorage.clear();
-      // or
-      window.sessionStorage.removeItem('token')
+      removeToken()
       // 跳转至登录页
       this.$router.push('/login')
     }
