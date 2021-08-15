@@ -3,6 +3,11 @@ import Tip from '@/utils/tips.js'
 // import store from '@/store'
 import { getToken } from '@/utils/auth'
 
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
+
+NProgress.configure({ showSpinner: false }) // NProgress Configuration
+
 // TODO:
 // 根据环境选择不同接口
 
@@ -15,6 +20,7 @@ var serve = axios.create({ timeout: 1000 * 12 })
 // 请求拦截器
 serve.interceptors.request.use(
   config => {
+    NProgress.start()
     // 根据本地是否存储 token 判断用户登录情况
     // const token = store.state.token
     const token = getToken()
@@ -48,10 +54,14 @@ const errorHandler = status => {
 // 响应拦截器
 serve.interceptors.response.use(
   // 请求成功
-  res => (res.status === 200 ? Promise.resolve(res) : Promise.reject(res)),
+  res => {
+    NProgress.done()
+    return res.status === 200 ? Promise.resolve(res) : Promise.reject(res)
+  },
 
   // 请求失败
   error => {
+    NProgress.done()
     const { response } = error
     if (response) {
       errorHandler(response.status, response.data.message)
