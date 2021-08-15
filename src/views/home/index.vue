@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import Tip from '@/utils/tips'
+
 export default {
   data() {
     return {
@@ -89,13 +91,9 @@ export default {
 
     // 获取侧边菜单
     async getMenuList() {
-      const { data: res } = await this.$http.get('menus')
+      const { data: res } = await this.$http.Menus.getMenuList()
       if (res.meta.status !== 200) {
-        return this.$message({
-          showClose: true,
-          message: '获取菜单失败',
-          type: 'error'
-        })
+        return Tip('error', '获取菜单失败')
       }
       this.menuList = res.data
     },
@@ -105,6 +103,7 @@ export default {
       this.isCollapse = !this.isCollapse
     },
 
+    // 退出
     logout() {
       // 清空 token
       // window.sessionStorage.clear();

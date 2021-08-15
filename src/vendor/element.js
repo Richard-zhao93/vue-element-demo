@@ -22,7 +22,8 @@ import {
   Col,
   Table,
   TableColumn,
-  Pagination
+  Pagination,
+  Switch
 } from 'element-ui'
 
 const components = [
@@ -46,7 +47,8 @@ const components = [
   Col,
   Table,
   TableColumn,
-  Pagination
+  Pagination,
+  Switch
 ]
 
 components.forEach(component => {

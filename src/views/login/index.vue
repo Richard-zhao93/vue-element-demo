@@ -53,6 +53,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import Tip from '@/utils/tips'
 
 export default {
   data() {
@@ -119,21 +120,14 @@ export default {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           this.loading = true
-          const { data: res } = await this.$http.post('login', this.loginForm)
+          const { data: res } = await this.$http.Users.getLogin(this.loginForm)
           if (res.meta.status !== 200) {
             this.loading = false
-            return this.$message({
-              showClose: true,
-              message: '登陆失败',
-              type: 'error'
-            })
+
+            return Tip('error', '登陆失败')
           }
 
-          this.$message({
-            showClose: true,
-            message: '登陆成功',
-            type: 'success'
-          })
+          Tip('success', '登陆成功')
           // 登陆成功：
           // 1. 保存 token 到 sessionStorage 中
           //    项目中除了登录之外的其他 API 接口，都需要 token
@@ -143,11 +137,7 @@ export default {
           this.loading = false
           this.$router.push('/home')
         } else {
-          return this.$message({
-            showClose: true,
-            message: '登陆失败',
-            type: 'error'
-          })
+          return Tip('error', '登陆失败')
         }
       })
     }

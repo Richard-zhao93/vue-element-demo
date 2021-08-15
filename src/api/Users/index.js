@@ -2,10 +2,36 @@ import http from '../../utils/http'
 import base from '../../utils/base'
 
 const users = {
-  getLogin (params) {
-    return http.get(`${base.a}xxx`, {
+  /**
+   * 登录
+   * @param {*} params
+   * @returns
+   */
+  getLogin(params) {
+    return http.get(`${base.test}/login`, {
       params: params
     })
+  },
+
+  /**
+   * 获取用户列表
+   * @param {*} params
+   * @returns
+   */
+  getUserList(params) {
+    return http.get(`${base.test}/users`, {
+      params: params
+    })
+  },
+
+  /**
+   * 修改用户状态
+   * @param {*} id 用户 ID
+   * @param {*} state 用户修改后的状态
+   * @returns
+   */
+  changeUserState(id, state) {
+    return http.put(`${base.test}/users/${id}/state/${state}`)
   }
 }
 

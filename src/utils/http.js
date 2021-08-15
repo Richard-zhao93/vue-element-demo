@@ -1,28 +1,22 @@
 import axios from 'axios'
-import { Message } from 'element-ui'
-import store from '@/store'
+import Tip from '@/utils/tips.js'
+// import store from '@/store'
 
-// 封装提示
-const Tip = msg => {
-  Message({
-    showClose: true,
-    message: msg,
-    type: 'warning'
-  })
-}
+// TODO:
+// 根据环境选择不同接口
 
 // 创建axios
-
 var serve = axios.create({ timeout: 1000 * 12 })
 
 // 设置请求头
-serve.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+// serve.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 
 // 请求拦截器
 serve.interceptors.request.use(
   config => {
     // 根据本地是否存储 token 判断用户登录情况
-    const token = store.state.token
+    // const token = store.state.token
+    const token = window.sessionStorage.getItem('token')
     token && (config.headers.Authorization = token)
     return config
   },
@@ -39,14 +33,14 @@ const errorHandler = status => {
     // token 过期
     // 清除 token，返回登录页
     case 403:
-      Tip('登陆过期，请重新登录')
-      localStorage.removeItem('token')
-      store.commit('loginSuccess', null)
+      Tip('warning', '登陆过期，请重新登录')
+      // localStorage.removeItem('token')
+      // store.commit('loginSuccess', null)
       setTimeout(() => { }, 1000)
       break
     // 请求不存在
     case 404:
-      Tip('请求的资源不存在')
+      Tip('warning', '请求的资源不存在')
   }
 }
 
