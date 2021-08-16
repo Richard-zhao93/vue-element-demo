@@ -38,7 +38,7 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" min-width="135">
         <template v-slot="scope">
           <el-button
             type="primary"
@@ -57,26 +57,29 @@
     </el-table>
 
     <!-- 分页 部分 -->
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="queryInfo.pagenum"
-      :page-sizes="[5, 10, 20, 30]"
-      :page-size="queryInfo.pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
+    <Pagination
+      :pagenum="queryInfo.pagenum"
+      :pagesize="queryInfo.pagesize"
       :total="total"
-    >
-    </el-pagination>
+      @page-size-change="handleSizeChange"
+      @page-num-change="handleCurrentChange"
+    />
   </el-card>
 </template>
 
 <script>
 import Tip from '@/utils/tips'
+import Pagination from '@/components/Pagination'
 
 export default {
+  components: {
+    Pagination
+  },
+
   created() {
     this.getUserList()
   },
+
   data() {
     return {
       total: 0, // 用户数据总量
@@ -89,6 +92,7 @@ export default {
       userList: [] // 用户列表数据
     }
   },
+
   methods: {
     // 获取用户列表
     async getUserList() {
