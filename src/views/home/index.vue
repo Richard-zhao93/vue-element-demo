@@ -2,7 +2,7 @@
   <div>
     <el-container class="home-container">
       <!-- 侧边栏 -->
-      <el-aside :width="isCollapse ? '64px' : '200px'">
+      <!-- <el-aside :width="isCollapse ? '64px' : '200px'">
         <el-menu
           default-active="1"
           class="el-menu-vertical-demo"
@@ -21,12 +21,10 @@
             :key="item.id"
             :index="item.id + ''"
           >
-            <!-- 一级菜单模板区域 -->
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>{{ item.authName }}</span>
             </template>
-            <!-- 二级菜单 -->
             <el-menu-item
               v-for="child in item.children"
               :key="child.id"
@@ -39,7 +37,8 @@
             </el-menu-item>
           </el-submenu>
         </el-menu>
-      </el-aside>
+      </el-aside> -->
+      <Aside :isCollapse="isCollapse" />
 
       <!-- 主体区域 -->
       <el-container>
@@ -68,36 +67,40 @@
 </template>
 
 <script>
-import Tip from '@/utils/tips'
-import { getToken, removeToken } from '@/utils/auth'
+import Aside from './Aside'
+// import Tip from '@/utils/tips'
+import { removeToken } from '@/utils/auth'
 
 export default {
+  components: {
+    Aside
+  },
   data() {
     return {
-      isCollapse: false, // 控制侧边栏的展开和收起
-      menuList: [] // 侧边栏菜单数据对象
+      isCollapse: false // 控制侧边栏的展开和收起
+      // menuList: [] // 侧边栏菜单数据对象
     }
   },
   created() {
     // 获取侧边菜单
-    this.getMenuList()
+    // this.getMenuList()
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath)
-    },
+    // handleOpen(key, keyPath) {
+    //   console.log(key, keyPath)
+    // },
+    // handleClose(key, keyPath) {
+    //   console.log(key, keyPath)
+    // },
 
     // 获取侧边菜单
-    async getMenuList() {
-      const { data: res } = await this.$http.Menus.getMenuList()
-      if (res.meta.status !== 200) {
-        return Tip('error', '获取菜单失败')
-      }
-      this.menuList = res.data
-    },
+    // async getMenuList() {
+    //   const { data: res } = await this.$http.Menus.getMenuList()
+    //   if (res.meta.status !== 200) {
+    //     return Tip('error', '获取菜单失败')
+    //   }
+    //   this.menuList = res.data
+    // },
 
     // 控制侧边栏的展开和收起
     changeCollapse() {
