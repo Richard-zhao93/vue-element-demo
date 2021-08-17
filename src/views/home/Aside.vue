@@ -15,7 +15,10 @@
       <el-submenu v-for="item in menuList" :key="item.id" :index="item.id + ''">
         <!-- 一级菜单模板区域 -->
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <!-- svg 图标使用 -->
+          <span class="svg-container">
+            <svg-icon :icon-class="icons[item.id]" />
+          </span>
           <span>{{ item.authName }}</span>
         </template>
         <!-- 二级菜单 -->
@@ -43,7 +46,14 @@ export default {
   ],
   data() {
     return {
-      menuList: [] // 侧边栏菜单数据对象
+      menuList: [], // 侧边栏菜单数据对象
+      icons: {
+        '125': 'user',
+        '103': 'permission',
+        '101': 'goods',
+        '102': 'order',
+        '145': 'data'
+      }
     }
   },
   created() {
@@ -84,5 +94,16 @@ $bgAside: #333744;
   .el-menu {
     border-right: 1px solid $bgAside;
   }
+}
+
+.svg-container {
+  display: inline-flex;
+  align-items: center;
+  color: #909399;
+  // text-align: center;
+  // vertical-align: middle;
+  // margin-right: 5px;
+  width: 24px;
+  font-size: 16px;
 }
 </style>
