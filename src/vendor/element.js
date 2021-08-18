@@ -23,7 +23,9 @@ import {
   Table,
   TableColumn,
   Pagination,
-  Switch
+  Switch,
+  Breadcrumb,
+  BreadcrumbItem
 } from 'element-ui'
 
 const components = [
@@ -48,7 +50,9 @@ const components = [
   Table,
   TableColumn,
   Pagination,
-  Switch
+  Switch,
+  Breadcrumb,
+  BreadcrumbItem
 ]
 
 components.forEach(component => {

@@ -38,15 +38,18 @@ export const constantRoutes = [
   },
   {
     path: '/home',
+    meta: { title: '首页' },
     component: () => import('@/views/home/index'),
     // redirect: '/welcome',
     children: [
       {
         path: '/welcome',
+        meta: { title: '欢迎页' },
         component: () => import('@/views/welcome/index')
       },
       {
         path: '/users',
+        meta: { title: '用户列表' },
         component: () => import('@/views/users/index')
       }
     ]

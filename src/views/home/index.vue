@@ -8,14 +8,14 @@
       <el-container>
         <!-- 头部区域 -->
         <el-header>
-          <div>
-            <div class="switch-icon" @click="changeCollapse">
-              <i
-                :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"
-              ></i>
-            </div>
-            <span>电商后台管理系统</span>
+          <div class="switch-icon">
+            <i
+              :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"
+              @click="changeCollapse"
+            ></i>
+            <Breadcrumb />
           </div>
+
           <el-button type="info" plain @click="logout">退出</el-button>
         </el-header>
 
@@ -31,11 +31,17 @@
 
 <script>
 import Aside from './Aside'
+import Breadcrumb from './Breadcrumb'
 import { removeToken } from '@/utils/auth'
 
 export default {
+  created() {
+    // console.log(this.$router)
+    // console.log(this.$route.matched)
+  },
   components: {
-    Aside
+    Aside,
+    Breadcrumb
   },
   data() {
     return {
@@ -82,6 +88,11 @@ $bgMain: #f0f2f5;
     color: #ccc;
     margin-right: 20px;
     cursor: pointer;
+
+    .el-breadcrumb {
+      display: inline-block;
+      margin-left: 20px;
+    }
   }
 }
 
