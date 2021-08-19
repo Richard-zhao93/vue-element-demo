@@ -53,7 +53,6 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { setToken } from '@/utils/auth'
 import Tip from '@/utils/tips'
 
 export default {
@@ -121,6 +120,17 @@ export default {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           this.loading = true
+          this.$store
+            .dispatch('user/login', this.loginForm)
+            .then(() => {
+              this.loading = false
+              this.$router.push('/welcome')
+            })
+            .catch(() => {
+              this.loading = false
+            })
+
+          /*
           const { data: res } = await this.$http.Users.getLogin(this.loginForm)
           if (res.meta.status !== 200) {
             this.loading = false
@@ -129,14 +139,17 @@ export default {
           }
 
           Tip('success', '登陆成功')
+          */
           // 登陆成功：
           // 1. 保存 token 到 sessionStorage 中
           //    项目中除了登录之外的其他 API 接口，都需要 token
           //    token 只应在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
           // 2. 路由跳转至后台主页 /home
+          /*
           setToken(res.data.token)
           this.loading = false
           this.$router.push('/home')
+          */
         } else {
           return Tip('error', '登陆失败')
         }

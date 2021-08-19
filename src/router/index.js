@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Layout from '@/views/layout/index'
 import { getToken } from '@/utils/auth'
+import Tip from '@/utils/tips'
+import getPageTitle from '@/utils/getPageTitle'
 
 Vue.use(VueRouter)
 
@@ -26,6 +28,13 @@ Vue.use(VueRouter)
   }
  */
 
+/**
+* constantRoutes
+* a base page that does not have permission requirements
+* all roles can be accessed
+* 不要求权限，所有角色都能访问的页面
+* TODO:
+*/
 export const constantRoutes = [
   {
     path: '/',
@@ -54,21 +63,19 @@ export const constantRoutes = [
       }
     ]
   }
-  // {
-  // path: '/',
-  // component: Layout,
-  // redirect: '/dashboard',
-  // children: [
-  //   {
-  //     path: 'dashboard',
-  //     component: () => import(''),
-  //     name: 'Dashboard',
-  //     meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
-  //   }
-  // ]
-  // }
 ]
 
+/**
+ * asyncRoutes
+ * 基于用户权限异步加载的路由
+ * TODO:
+ */
+export const asyncRoutes = []
+
+/**
+ * 创建路由对象
+ * @returns 返回一个路由对象
+ */
 const createRouter = () => new VueRouter({
   // mode: 'hash', // require service support
   // scrollBehavior: () => ({ y: 0 }),
@@ -77,28 +84,40 @@ const createRouter = () => new VueRouter({
 
 const router = createRouter()
 
-// export function resetRouter () {
-//   const newRouter = createRouter()
-//   router.match = newRouter.matcher
-// }
+// 重置路由
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.match = newRouter.matcher // reset router
+}
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  // 如果用户访问的是 /login，直接放行
-  if (to.path === '/login') return next()
+  console.log(to)
+  // 设置页面标题
+  document.title = getPageTitle(to.meta.title)
 
   // 从 sessionStorage 中获取 token
   const token = getToken()
-  // 如果 token 不存在，强制返回登录页
-  if (!token) {
-    Vue.prototype.$message({
-      showClose: true,
-      message: '请先登录',
-      type: 'error'
-    })
+
+  if (token) {
+    // 登录后，阻止跳转到 login 页面
+    if (to.path === '/login') return next({ path: '/home' })
+    else {
+      // TODO:
+      // 获取用户权限
+      // 权限判断
+      // 动态添加有权限的路由
+      return next()
+    }
+  } else {
+    // 如果用户访问的是 /login，直接放行
+    console.log(to)
+    if (to.path === '/login') return next()
+
+    // 如果 token 不存在，强制返回登录页
+    Tip('error', '请先登录')
     return next('/login')
   }
-  next()
 })
 
 export default router
