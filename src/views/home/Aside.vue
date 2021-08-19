@@ -1,7 +1,7 @@
 <template>
   <el-aside :width="isCollapse ? '64px' : '200px'">
     <el-menu
-      default-active="1"
+      :default-active="$route.path"
       @open="handleOpen"
       @close="handleClose"
       :collapse="isCollapse"
