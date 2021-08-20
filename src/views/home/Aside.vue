@@ -48,7 +48,7 @@ export default {
     return {
       menuList: [], // 侧边栏菜单数据对象
       icons: {
-        '125': 'user',
+        '104': 'user',
         '103': 'permission',
         '101': 'goods',
         '102': 'order',
@@ -70,11 +70,11 @@ export default {
 
     // 获取侧边菜单
     async getMenuList() {
-      const { data: res } = await this.$http.Menus.getMenuList()
-      if (res.meta.status !== 200) {
+      const { data } = await this.$http.Menus.getMenuList()
+      if (data.meta.status !== 200) {
         return Tip('error', '获取菜单失败')
       }
-      this.menuList = res.data
+      this.menuList = data.data
     },
 
     // 控制侧边栏的展开和收起

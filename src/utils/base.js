@@ -2,7 +2,7 @@
 const base = {
   // 配置多个接口 url
   test: 'http://timemeetyou.com:8889/api/private/v1',
-  b: 'b.com'
+  localhost: 'http://localhost:8000'
 }
 
 export default base

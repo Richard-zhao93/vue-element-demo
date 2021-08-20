@@ -8,7 +8,7 @@ const users = {
    * @returns
    */
   getLogin(params) {
-    return http.get(`${base.test}/login`, {
+    return http.get(`${base.localhost}/user/login`, {
       params: params
     })
   },
@@ -19,7 +19,7 @@ const users = {
    * @returns
    */
   getUserList(params) {
-    return http.get(`${base.test}/users`, {
+    return http.get(`${base.localhost}/user/list`, {
       params: params
     })
   },

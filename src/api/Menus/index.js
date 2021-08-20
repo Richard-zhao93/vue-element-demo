@@ -3,7 +3,7 @@ import base from '../../utils/base'
 
 const menus = {
   getMenuList() {
-    return http.get(`${base.test}/menus`)
+    return http.get(`${base.localhost}/menus`)
   }
 }
 

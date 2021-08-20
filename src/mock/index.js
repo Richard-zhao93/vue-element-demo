@@ -1,15 +1,13 @@
 // mock 的监听逻辑
 import Mock from 'mockjs'
-import demoApi from './demo' // 导入模拟数据的 js 文件
+import users from './user' // 导入模拟数据的 js 文件
 
 const mocks = [
-  {
-    intercept: true, // 你可能需要一个开关，来使模拟请求与真实请求并存
-    fetchs: demoApi
-  }
+  ...users
 ]
 
 // 解析地址栏参数解析函数
+/*
 export function param2Obj(url) {
   const search = url.split('?')[1]
   if (!search) {
@@ -25,8 +23,10 @@ export function param2Obj(url) {
     '"}'
   )
 }
+*/
 
 // 前端模式构建函数（或者也可以建一个mock server）
+/*
 export function mockXHR() {
   Mock.XHR.prototype.proxy_send = Mock.XHR.prototype.send
   Mock.XHR.prototype.send = function () {
@@ -60,9 +60,26 @@ export function mockXHR() {
 
   for (const i of mocks) {
     if (i.intercept) {
-      for (const fetch of i.fetchs) {
+      for (const fetch of i.fetches) {
         Mock.mock(new RegExp(fetch.url), fetch.type || 'get', XHR2ExpressReqWrap(fetch.response))
       }
     }
   }
+}
+*/
+
+function mockXHR() {
+  //  设置全局延时
+  Mock.setup({
+    timeout: '300-600'
+  })
+
+  for (const i of mocks) {
+    Mock.mock(i.url, i.type || 'get', i.response)
+  }
+}
+
+export {
+  mocks,
+  mockXHR
 }

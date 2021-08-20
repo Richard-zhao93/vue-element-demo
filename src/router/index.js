@@ -57,7 +57,7 @@ export const constantRoutes = [
         component: () => import('@/views/welcome/index')
       },
       {
-        path: '/users',
+        path: '/user',
         meta: { title: '用户列表' },
         component: () => import('@/views/users/index')
       }
@@ -92,7 +92,6 @@ export function resetRouter() {
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  console.log(to)
   // 设置页面标题
   document.title = getPageTitle(to.meta.title)
 
@@ -111,7 +110,6 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     // 如果用户访问的是 /login，直接放行
-    console.log(to)
     if (to.path === '/login') return next()
 
     // 如果 token 不存在，强制返回登录页

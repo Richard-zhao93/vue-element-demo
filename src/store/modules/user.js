@@ -1,6 +1,6 @@
 import Api from '@/api'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import router, { resetRouter } from '@/router'
+import { getToken, setToken } from '@/utils/auth'
+// import router, { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
@@ -27,6 +27,7 @@ const actions = {
   login({ commit }, userInfo) {
     return new Promise((resolve, reject) => {
       Api.Users.getLogin(userInfo).then(response => {
+        console.log(response)
         const { data } = response.data
         commit('SET_TOKEN', data.token)
         commit('SET_NAME', data.username)

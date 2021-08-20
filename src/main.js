@@ -12,8 +12,8 @@ import '@/icons' // 引入 icons
 // Mock 使用
 // import { mockXHR } from './mock'
 if (process.env.NODE_ENV === 'development') {
-  // const { mockXHR } = require('./mock')
-  // mockXHR()
+  const { mockXHR } = require('./mock')
+  mockXHR()
 }
 
 // 挂载全局请求 API
