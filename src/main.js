@@ -6,7 +6,7 @@ import store from '@/store'
 import './vendor/element'
 import Api from '@/api'
 
-import '@/styles/index.scss' // global css
+import '@/styles/global.scss' // global css
 import '@/icons' // 引入 icons
 
 // Mock 使用
