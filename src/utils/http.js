@@ -23,7 +23,7 @@ serve.interceptors.request.use(
     NProgress.start()
     // 根据本地是否存储 token 判断用户登录情况
     // const token = store.state.token
-    const token = getToken()
+    const token = getToken('token')
     token && (config.headers.Authorization = token)
     return config
   },

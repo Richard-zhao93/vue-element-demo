@@ -96,7 +96,7 @@ router.beforeEach((to, from, next) => {
   document.title = getPageTitle(to.meta.title)
 
   // 从 sessionStorage 中获取 token
-  const token = getToken()
+  const token = getToken('token')
 
   if (token) {
     // 登录后，阻止跳转到 login 页面

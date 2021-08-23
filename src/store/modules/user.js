@@ -3,11 +3,9 @@ import { getToken, setToken } from '@/utils/auth'
 // import router, { resetRouter } from '@/router'
 
 const state = {
-  token: getToken(),
+  token: getToken('token'),
   name: '',
-  avatar: '',
-  introduction: '',
-  roles: []
+  rights: []
 }
 
 const mutations = {
@@ -17,8 +15,8 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name
   },
-  SET_ROLES: (state, roles) => {
-    state.roles = roles
+  SET_RIGHTS: (state, rights) => {
+    state.rights = rights
   }
 }
 
@@ -27,11 +25,12 @@ const actions = {
   login({ commit }, userInfo) {
     return new Promise((resolve, reject) => {
       Api.Users.getLogin(userInfo).then(response => {
-        console.log(response)
-        const { data } = response.data
+        const { data } = response
         commit('SET_TOKEN', data.token)
         commit('SET_NAME', data.username)
-        setToken(data.token)
+        commit('SET_RIGHTS', data.rights)
+        setToken('token', data.token)
+        setToken('rights', JSON.stringify(data.rights))
         resolve()
       }).catch(error => {
         reject(error)

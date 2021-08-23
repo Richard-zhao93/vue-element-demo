@@ -146,7 +146,7 @@ export default {
           //    token 只应在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
           // 2. 路由跳转至后台主页 /home
           /*
-          setToken(res.data.token)
+          setToken('token', res.data.token)
           this.loading = false
           this.$router.push('/home')
           */

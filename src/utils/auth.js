@@ -16,16 +16,16 @@
 // }
 
 // 封装 sessionStorage 操作
-const TokenKey = 'token'
+// const TokenKey = 'token'
 
-export function getToken() {
-  return window.sessionStorage.getItem(TokenKey)
+export function getToken(tokenKey) {
+  return window.sessionStorage.getItem(tokenKey)
 }
 
-export function setToken(token) {
-  return window.sessionStorage.setItem(TokenKey, token)
+export function setToken(tokenKey, token) {
+  return window.sessionStorage.setItem(tokenKey, token)
 }
 
-export function removeToken() {
-  return window.sessionStorage.removeItem(TokenKey)
+export function removeToken(tokenKey) {
+  return window.sessionStorage.removeItem(tokenKey)
 }

@@ -1,6 +1,8 @@
 import http from '../../utils/http'
 import base from '../../utils/base'
 
+const baseUrl = base.mock // TODO: 根据环境选择
+
 const users = {
   /**
    * 登录
@@ -8,7 +10,7 @@ const users = {
    * @returns
    */
   getLogin(params) {
-    return http.get(`${base.localhost}/user/login`, {
+    return http.post(`${baseUrl}/user/login`, {
       params: params
     })
   },
@@ -19,7 +21,7 @@ const users = {
    * @returns
    */
   getUserList(params) {
-    return http.get(`${base.localhost}/user/list`, {
+    return http.get(`${baseUrl}/user/list`, {
       params: params
     })
   },
@@ -31,7 +33,7 @@ const users = {
    * @returns
    */
   changeUserState(id, state) {
-    return http.put(`${base.test}/users/${id}/state/${state}`)
+    return http.put(`${baseUrl}/users/${id}/state/${state}`)
   }
 }
 

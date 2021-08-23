@@ -57,7 +57,8 @@ export default {
     // 退出
     logout() {
       // 清空 token
-      removeToken()
+      removeToken('rights')
+      removeToken('token')
       // 跳转至登录页
       this.$router.push('/login')
     }

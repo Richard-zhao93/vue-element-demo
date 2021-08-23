@@ -11,10 +11,11 @@ import '@/icons' // 引入 icons
 
 // Mock 使用
 // import { mockXHR } from './mock'
-if (process.env.NODE_ENV === 'development') {
-  const { mockXHR } = require('./mock')
-  mockXHR()
-}
+// if (process.env.NODE_ENV === 'development') {
+//   const { mockXHR } = require('./mock')
+//   mockXHR()
+// }
+import '@/mock/user.js'
 
 // 挂载全局请求 API
 Vue.prototype.$http = Api
