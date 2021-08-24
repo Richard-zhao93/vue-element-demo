@@ -16,6 +16,17 @@ const users = {
   },
 
   /**
+   * 获取用户信息
+   * @param {*} token 用户token
+   * @returns
+   */
+  getUserInfo(token) {
+    return http.post(`${baseUrl}/user/getInfo`, {
+      token: token
+    })
+  },
+
+  /**
    * 获取用户列表
    * @param {*} params
    * @returns

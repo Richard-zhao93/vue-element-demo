@@ -17,7 +17,7 @@
         <template slot="title">
           <!-- svg 图标使用 -->
           <span class="svg-container">
-            <svg-icon :icon-class="icons[item.id]" />
+            <svg-icon :icon-class="item.icon" />
           </span>
           <span>{{ item.authName }}</span>
         </template>
@@ -25,7 +25,7 @@
         <el-menu-item
           v-for="child in item.children"
           :key="child.id"
-          :index="'/' + child.path"
+          :index="'' + child.path"
         >
           <template slot="title">
             <i class="el-icon-menu"></i>
@@ -38,7 +38,8 @@
 </template>
 
 <script>
-import Tip from '@/utils/tips'
+// import Tip from '@/utils/tips'
+// import { mapState } from 'vuex'
 
 export default {
   props: [
@@ -46,14 +47,7 @@ export default {
   ],
   data() {
     return {
-      menuList: [], // 侧边栏菜单数据对象
-      icons: {
-        '104': 'user',
-        '103': 'permission',
-        '101': 'goods',
-        '102': 'order',
-        '145': 'data'
-      }
+      menuList: [] // 侧边栏菜单数据对象
     }
   },
   created() {
@@ -69,12 +63,13 @@ export default {
     },
 
     // 获取侧边菜单
-    async getMenuList() {
-      const { data } = await this.$http.Menus.getMenuList()
-      if (data.meta.status !== 200) {
-        return Tip('error', '获取菜单失败')
-      }
-      this.menuList = data.data
+    getMenuList() {
+      // const { data } = await this.$http.Menus.getMenuList()
+      // if (data.meta.status !== 200) {
+      //   return Tip('error', '获取菜单失败')
+      // }
+      // this.menuList = data.data
+      this.menuList = this.$store.state.user.rights
     },
 
     // 控制侧边栏的展开和收起

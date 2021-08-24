@@ -1,11 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Layout from '@/views/layout/index'
+import store from '@/store'
 import { getToken } from '@/utils/auth'
 import Tip from '@/utils/tips'
 import getPageTitle from '@/utils/getPageTitle'
 
 Vue.use(VueRouter)
+
+// 第一次登陆时报错：
+//  Redirected when going from "/" to "/login" via a navigation guard.
+// 方法一：将 vue-router 版本降到 3.0.7
+// 方法二：
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) {
+    return originalPush.call(this, location, onResolve, onReject)
+  }
+  return originalPush.call(this, location).catch(err => err)
+}
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -29,39 +41,17 @@ Vue.use(VueRouter)
  */
 
 /**
-* constantRoutes
-* a base page that does not have permission requirements
-* all roles can be accessed
-* 不要求权限，所有角色都能访问的页面
-* TODO:
-*/
+ * constantRoutes
+ * a base page that does not have permission requirements
+ * all roles can be accessed
+ * 不要求权限，所有角色都能访问的页面
+ * TODO:
+ */
 export const constantRoutes = [
   {
-    path: '/',
-    redirect: '/login'
-  },
-  {
     path: '/login',
-    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index')
-    // hidden: true
-  },
-  {
-    path: '/home',
-    meta: { title: '首页' },
-    component: () => import('@/views/home/index'),
-    // redirect: '/welcome',
-    children: [
-      {
-        path: '/welcome',
-        meta: { title: '欢迎页' },
-        component: () => import('@/views/welcome/index')
-      },
-      {
-        path: '/user',
-        meta: { title: '用户列表' },
-        component: () => import('@/views/users/index')
-      }
-    ]
+    component: () =>
+      import(/* webpackChunkName: "login" */ '@/views/login/index')
   }
 ]
 
@@ -70,28 +60,73 @@ export const constantRoutes = [
  * 基于用户权限异步加载的路由
  * TODO:
  */
-export const asyncRoutes = []
+export const asyncRoutes = [
+  {
+    path: '/',
+    meta: { title: '首页' },
+    redirect: '/welcome'
+  },
+  {
+    path: '',
+    component: () => import('@/views/home/index'),
+    children: [
+      {
+        path: '/welcome',
+        meta: { title: '欢迎页', roles: ['admin', 'editor'] },
+        component: () => import('@/views/welcome/index')
+      },
+      {
+        path: '/user',
+        meta: { title: '用户列表', roles: ['admin'] },
+        component: () => import('@/views/users/index')
+      }
+    ]
+  },
+  {
+    path: '/error',
+    // redirect: 'noRedirect',
+    name: 'ErrorPages',
+    meta: { title: 'Error Pages', icon: '404' },
+    children: [
+      {
+        path: '401',
+        component: () => import('@/views/error-page/401'),
+        name: 'Page401',
+        meta: { title: '401' }
+      },
+      {
+        path: '404',
+        component: () => import('@/views/error-page/404'),
+        name: 'Page404',
+        meta: { title: '404' }
+      }
+    ]
+  },
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/error/404', hidden: true }
+]
 
 /**
  * 创建路由对象
  * @returns 返回一个路由对象
  */
-const createRouter = () => new VueRouter({
-  // mode: 'hash', // require service support
-  // scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new VueRouter({
+    // mode: 'hash', // require service support
+    // scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes
+  })
 
 const router = createRouter()
 
 // 重置路由
 export function resetRouter() {
   const newRouter = createRouter()
-  router.match = newRouter.matcher // reset router
+  router.matcher = newRouter.matcher // reset router
 }
 
 // 路由守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   // 设置页面标题
   document.title = getPageTitle(to.meta.title)
 
@@ -100,13 +135,39 @@ router.beforeEach((to, from, next) => {
 
   if (token) {
     // 登录后，阻止跳转到 login 页面
-    if (to.path === '/login') return next({ path: '/home' })
+    if (to.path === '/login') return next('/')
     else {
       // TODO:
       // 获取用户权限
-      // 权限判断
-      // 动态添加有权限的路由
-      return next()
+      const hasRoles = store.getters.roles && store.getters.roles.length > 0
+
+      if (hasRoles) {
+        // 当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入404页面
+        return next()
+      } else {
+        try {
+          // 获取用户权限，如 ['developer','editor']
+          const { roles } = await store.dispatch('user/getInfo', token)
+          // 权限判断，获取有权限的路由集合
+          const accessRoutes = await store.dispatch(
+            'permission/generateRoutes',
+            roles
+          )
+
+          // 动态添加路由
+          accessRoutes.forEach(route => {
+            router.addRoute(route)
+          })
+
+          return next({ ...to, replace: true })
+        } catch (err) {
+          console.log(err)
+          await store.dispatch('user/resetToken')
+
+          Tip('error', 'Something Error')
+          return next('/login')
+        }
+      }
     }
   } else {
     // 如果用户访问的是 /login，直接放行

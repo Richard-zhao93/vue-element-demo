@@ -113,8 +113,8 @@ export default {
       })
     },
     /**
-     * 点击 Login 按钮后的，登录逻辑
      * TODO:
+     * 点击 Login 按钮后的，登录逻辑
      */
     handleLogin() {
       this.$refs.loginForm.validate(async valid => {

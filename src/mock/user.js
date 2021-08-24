@@ -61,7 +61,7 @@ Mock.setup({
 const Random = Mock.Random
 // 为 Mock.Random 扩展方法
 Random.extend({
-  likes: function () {
+  likes: function() {
     const likes = [
       '浴室。每次洗完身子感觉整个身体都在那里放松了。',
       '哈哈哈，我喜欢的是和女孩子一起玩，因为男女搭配，干活不累嘛。',
@@ -78,7 +78,7 @@ Random.extend({
   }
 })
 Mock.Random.extend({
-  address: function () {
+  address: function() {
     const address = [
       '浙江省嘉兴市沈荡古镇',
       '四川省成都市大熊猫基地',
@@ -111,69 +111,95 @@ for (let i = 0; i < 20; i++) {
 const users = [
   {
     id: 1,
-    username: 'user',
+    username: 'editor',
     password: '123456',
-    token: 'user-token',
-    rights: [{
-      id: 1,
-      authName: '用户管理',
-      icon: 'icon-menu',
-      children: [{
-        id: 11,
-        authName: '用户列表',
-        path: '/',
-        rights: ['view', 'edit', 'add', 'delete']
-      }]
-    }]
+    token: 'editor-token',
+    roles: ['editor'],
+    rights: [
+      {
+        id: 1,
+        authName: '用户管理',
+        icon: 'user',
+        children: [
+          {
+            id: 11,
+            authName: '用户列表',
+            path: '/user',
+            rights: ['view', 'edit', 'add', 'delete']
+          }
+        ]
+      }
+    ]
   },
   {
     id: 2,
     username: 'admin',
     password: '123456',
     token: 'admin-token',
-    rights: [{
-      id: 1,
-      authName: '用户管理',
-      icon: 'icon-menu',
-      children: [{
-        id: 11,
-        authName: '用户列表',
-        path: '/',
-        rights: ['view', 'edit', 'add', 'delete']
-      }, {
-        id: 12,
-        authName: '一级项目2',
-        path: '/',
-        rights: ['view', 'edit', 'add', 'delete']
-      }]
-    }, {
-      id: 2,
-      authName: '二级菜单',
-      icon: 'icon-menu',
-      children: [{
-        id: 22,
-        authName: '二级项目1',
-        path: '/',
-        rights: ['view', 'edit', 'add', 'delete']
-      }]
-    }]
+    roles: ['admin'],
+    rights: [
+      {
+        id: 1,
+        authName: '用户管理',
+        icon: 'user',
+        children: [
+          {
+            id: 11,
+            authName: '用户列表',
+            path: '/user',
+            rights: ['view', 'edit', 'add', 'delete']
+          },
+          {
+            id: 12,
+            authName: '一级项目2',
+            path: '/project2',
+            rights: ['view', 'edit', 'add', 'delete']
+          }
+        ]
+      },
+      {
+        id: 2,
+        authName: '权限管理',
+        icon: 'order',
+        children: [
+          {
+            id: 22,
+            authName: '角色权限',
+            path: '/roles',
+            rights: ['view', 'edit', 'add', 'delete']
+          }
+        ]
+      }
+    ]
   }
 ]
 
 /**
  * Mock.mock( url, type, function( options ) )
- * url 需要拦截的url
- * type 需要拦截的ajax请求类型
+ * url 需要拦截的 url
+ * type 需要拦截的 ajax 请求类型
  * function( options ) 用于生成响应数据的函数
  * 记录用于生成响应数据的函数。当拦截到匹配 url 和 type 的 Ajax 请求时，函数 function(options) 将被执行，并把执行结果作为响应数据返回。
  */
 const baseUrl = 'http://localhost:8080'
+
 // 用户登录
 Mock.mock(`${baseUrl}/user/login`, 'post', options => {
   const { username, password } = JSON.parse(options.body).params
 
   const user = users.find(item => {
     return item.username === username && item.password === password
+  })
+
+  return user
+})
+
+// 获取用户信息
+Mock.mock(`${baseUrl}/user/getInfo`, 'post', options => {
+  const { token } = JSON.parse(options.body)
+
+  const user = users.find(item => {
+    return item.token === token
   })
 
   return user

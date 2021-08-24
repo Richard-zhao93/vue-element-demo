@@ -33,6 +33,7 @@
 import Aside from './Aside'
 import Breadcrumb from './Breadcrumb'
 import { removeToken } from '@/utils/auth'
+import { resetRouter } from '@/router'
 
 export default {
   created() {
@@ -59,6 +60,12 @@ export default {
       // 清空 token
       removeToken('rights')
       removeToken('token')
+      removeToken('roles')
+
+      // 清除 vuex 中的相关信息
+      this.$store.dispatch('user/resetToken')
+      // 重置路由
+      resetRouter()
       // 跳转至登录页
       this.$router.push('/login')
     }
